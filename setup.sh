@@ -3,33 +3,35 @@
 github_user="fredriknk"
 github_repo="fnk"
 
-read -p "Vil du sette opp eduroam? (y/n) " answer
-case ${answer:0:1} in
-    y|Y )
+read -p "Vil du sette opp eduroam? (y/n) " yn
+case $yn in
+    [Yy]* )
         sudo python3 eduroam-linux-NMBU.py
     ;;
-    * )
+    [Nn]* )
         echo "Eduroam ikke satt opp"
     ;;
+	* ) echo "Please answer yes or no.";;
 esac
 
-read -p "Vil du lage ssh-nøkler og importere fra github? (y/n) " answer
-case ${answer:0:1} in
-    y|Y )
+read -p "Vil du lage ssh-nøkler og importere fra github? (y/n) " yn
+case $yn in
+    [Yy]* )
 		sudo apt install openssh-server
 		
         ssh-keygen -t rsa -b 3072
 		ssh-import-id gh:${github_user}
 		sudo systemctl status ssh
     ;;
-    * )
+    [Nn]* )
         echo "ssh ikke konfigurert"
     ;;
+	* ) echo "Please answer yes or no.";;
 esac
 
-read -p "Vil du sette opp ohmyzsh zsh? (y/n) " answer
-case ${answer:0:1} in
-    y|Y )
+read -p "Vil du sette opp ohmyzsh zsh? (y/n) " yn
+case $yn in
+    [Yy]* )
         sudo apt install git-core zsh
 		sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 		sudo apt install fonts-powerline
@@ -41,14 +43,15 @@ case ${answer:0:1} in
 
 		curl https://raw.githubusercontent.com/${github_user}/${github_repo}/main/.zshrc > ~/.zshrc
     ;;
-    * )
+    [Nn]* )
         echo "zsh ikke konfigurert"
     ;;
+	* ) echo "Please answer yes or no.";;
 esac
 
-read -p "Vil du sette opp standard programpakke? (y/n) " answer
-case ${answer:0:1} in
-    y|Y )
+read -p "Vil du sette opp standard programpakke? (y/n) " yn
+case $yn in
+    [Yy]* )
 		echo "Installerer docker, trengs til alt"
 		sudo apt update
 		sudo apt install apt-transport-https ca-certificates curl software-properties-common
@@ -79,9 +82,10 @@ case ${answer:0:1} in
 		
 		
     ;;
-    * )
+    [Nn]* )
         echo "ssh ikke konfigurert"
     ;;
+	* ) echo "Please answer yes or no.";;
 esac
 
 
