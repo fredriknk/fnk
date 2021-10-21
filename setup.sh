@@ -1,3 +1,5 @@
+#!/bin/bash
+
 github_user="fredriknk"
 github_repo="fnk"
 
