@@ -87,7 +87,10 @@ case $yn in
     [Yy]* )
         sudo apt install git-core zsh
 		sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-		sudo apt install fonts-powerline
+		
+		git clone https://github.com/abertsch/Menlo-for-Powerline.git
+		sudo mv Menlo*.tff /usr/share/fonts
+		
 		sudo cp ./.zshrc ~/.zshrc
 		cd ~/.oh-my-zsh/custom/plugins
 		git clone https://github.com/zsh-users/zsh-syntax-highlighting
