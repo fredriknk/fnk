@@ -93,7 +93,7 @@ case $yn in
 		git clone https://github.com/zsh-users/zsh-syntax-highlighting
 		git clone https://github.com/zsh-users/zsh-autosuggestions
 		
-		source ~/.zshrc
+		zsh
     ;;
     [Nn]* )
         echo "zsh ikke konfigurert"
