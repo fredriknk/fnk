@@ -29,23 +29,6 @@ case $yn in
 	* ) echo "Please answer yes or no.";;
 esac
 
-read -p "Vil du sette opp ohmyzsh zsh? (y/n) " yn
-case $yn in
-    [Yy]* )
-        sudo apt install git-core zsh
-		sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-		sudo apt install fonts-powerline
-
-		cd ~/.oh-my-zsh/custom/plugins
-		git clone https://github.com/zsh-users/zsh-syntax-highlighting
-		git clone https://github.com/zsh-users/zsh-autosuggestions
-    ;;
-    [Nn]* )
-        echo "zsh ikke konfigurert"
-    ;;
-	* ) echo "Please answer yes or no.";;
-esac
-
 read -p "Vil du sette opp standard programpakke? (y/n) " yn
 case $yn in
     [Yy]* )
@@ -96,12 +79,19 @@ case $yn in
 	* ) echo "Please answer yes or no.";;
 esac
 
+read -p "Vil du sette opp ohmyzsh zsh? (y/n) " yn
+case $yn in
+    [Yy]* )
+        sudo apt install git-core zsh
+		sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+		sudo apt install fonts-powerline
 
-
-sudo apt update
-
-
-sudo apt install openssh-server
-sudo systemctl status ssh
-sudo ufw allow ssh
-
+		cd ~/.oh-my-zsh/custom/plugins
+		git clone https://github.com/zsh-users/zsh-syntax-highlighting
+		git clone https://github.com/zsh-users/zsh-autosuggestions
+    ;;
+    [Nn]* )
+        echo "zsh ikke konfigurert"
+    ;;
+	* ) echo "Please answer yes or no.";;
+esac
