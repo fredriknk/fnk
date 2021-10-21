@@ -108,10 +108,10 @@ fpath=(/usr/local/share/zsh-completions $fpath)
 # Example aliases
 
 
-alias zshconfig="lvim ~/.zshrc"
+alias zshconfig="nvim ~/.zshrc"
 alias ccat="highlight -O ansi"
-alias vi="lvim"
-alias vim="lvim"
+alias vi="nvim"
+alias vim="nvim"
 
 alias l='exa -la --git --icons'
 alias ls='exa --icons --git'
@@ -119,4 +119,4 @@ alias la='exa -a --icons --git'
 alias ls='exa --color=auto --icons --git'
 alias ll='exa -la --git --icons'
 alias lt='exa --tree --level=2'
-# alias ohmyzsh="mate ~/.oh-my-zsh"
+alias ohmyzsh="mate ~/.oh-my-zsh"
