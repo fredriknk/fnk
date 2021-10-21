@@ -21,18 +21,6 @@ case $yn in
         ssh-keygen -t rsa -b 3072
 		ssh-import-id gh:${github_user}
 		sudo systemctl status ssh
-		
-	read -p "Vil du fjerne passordinnlogging? (y/n) " yn
-	case $yn in
-		[Yy]* )
-			#Create temporary file with new line in place
-			cat /dir/file | sed -e "s/the_original_line/the_new_line/" > /dir/temp_file
-			#Copy the new file over the original file
-			mv /dir/temp_file /dir/file
-		;;
-		[Nn]* )
-			echo "ssh ikke konfigurert"
-		;;
     ;;
     [Nn]* )
         echo "ssh ikke konfigurert"
