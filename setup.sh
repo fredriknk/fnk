@@ -92,6 +92,8 @@ case $yn in
 		cd ~/.oh-my-zsh/custom/plugins
 		git clone https://github.com/zsh-users/zsh-syntax-highlighting
 		git clone https://github.com/zsh-users/zsh-autosuggestions
+		
+		source ~/.zshrc
     ;;
     [Nn]* )
         echo "zsh ikke konfigurert"
