@@ -32,6 +32,19 @@ esac
 read -p "Vil du sette opp standard programpakke? (y/n) " yn
 case $yn in
     [Yy]* )
+		
+		sudo mkdir ~/tmp
+		cd ~/tmp
+		sudo apt install libgit2-dev rustc
+		sudo apt-mark auto rustc
+		git clone https://github.com/ogham/exa --depth=1
+		cd exa
+		sudo cargo build --release && cargo test #cargo test is optional
+		sudo install target/release/exa /usr/local/bin/exa
+		cd ..
+		rm -rf exa
+		sudo apt purge --autoremove
+		
 		echo "Installerer docker, trengs til alt"
 		sudo apt update
 		sudo apt install apt-transport-https ca-certificates curl software-properties-common
@@ -60,17 +73,6 @@ case $yn in
 		sudo ufw allow in on cni0 && sudo ufw allow out on cni0
 		sudo ufw default allow routed
 		
-		sudo mkdir ~/tmp
-		cd ~/tmp
-		sudo apt install libgit2-dev rustc
-		sudo apt-mark auto rustc
-		git clone https://github.com/ogham/exa --depth=1
-		cd exa
-		cargo build --release && cargo test #cargo test is optional
-		sudo install target/release/exa /usr/local/bin/exa
-		cd ..
-		rm -rf exa
-		sudo apt purge --autoremove
 		
     ;;
     [Nn]* )
