@@ -69,7 +69,7 @@ case $yn in
 		sudo apt-mark auto rustc
 		sudo git clone https://github.com/ogham/exa --depth=1
 		cd exa
-		sudo cargo build --release && cargo test #cargo test is optional
+		sudo cargo build --release && sudo cargo test #cargo test is optional
 		sudo install target/release/exa /usr/local/bin/exa
 		cd ..
 		sudo rm -rf exa
