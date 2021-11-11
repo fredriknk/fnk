@@ -18,9 +18,9 @@ read -p "Vil du lage ssh-nøkler og importere fra github? (y/n) " yn
 case $yn in
     [Yy]* )
 		sudo apt install openssh-server
-        ssh-keygen -t rsa -b 3072
+                ssh-keygen -t rsa -b 3072
 		ssh-import-id gh:${github_user}
-		sudo systemctl status ssh
+		#sudo systemctl status ssh
     ;;
     [Nn]* )
         echo "ssh ikke konfigurert"
@@ -39,7 +39,7 @@ case $yn in
 		sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
 		apt-cache policy docker-ce
 		sudo apt install docker-ce
-		sudo systemctl status docker
+		#sudo systemctl status docker
 		
 		echo "installerer neovim, den kjekkeste editoren"
 		sudo add-apt-repository ppa:neovim-ppa/unstable
@@ -89,7 +89,7 @@ case $yn in
 		sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 		
 		git clone https://github.com/abertsch/Menlo-for-Powerline.git
-		sudo mv Menlo*.tff /usr/share/fonts
+		sudo mv ./Menlo-for-Powerline/Menlo*.tff /usr/share/fonts
 		
 		sudo cp ./.zshrc ~/.zshrc
 		cd ~/.oh-my-zsh/custom/plugins
