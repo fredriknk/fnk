@@ -30,54 +30,96 @@ esac
 
 read -p "Vil du sette opp standard programpakke? (y/n) " yn
 case $yn in
-    [Yy]* )
+    [Yy]* )	
+    		read -p "Installerer docker, trengs til alt (y/n) " yn2
+		case $yn2 in
+		    [Yy]* )
+			sudo apt update
+			sudo apt install apt-transport-https ca-certificates curl software-properties-common
+			curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+			sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+			apt-cache policy docker-ce
+			sudo apt install docker-ce
+			#sudo systemctl status docker
+			;;
+		    Nn ) exit;;
+		esac
 		
-		echo "Installerer docker, trengs til alt"
-		sudo apt update
-		sudo apt install apt-transport-https ca-certificates curl software-properties-common
-		curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-		sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
-		apt-cache policy docker-ce
-		sudo apt install docker-ce
-		#sudo systemctl status docker
+		read -p "installer neovim, den kjekkeste editoren(y/n) " yn2
+		case $yn2 in
+		    [Yy]* )
+			sudo add-apt-repository ppa:neovim-ppa/unstable
+			sudo apt-get update
+			sudo apt-get install neovim
+			;;
+		    Nn ) exit;;
+		esac
 		
-		echo "installerer neovim, den kjekkeste editoren"
-		sudo add-apt-repository ppa:neovim-ppa/unstable
-		sudo apt-get update
-		sudo apt-get install neovim
+		read -p "intstaller glances for monitorering (y/n) " yn2
+		case $yn2 in
+		    [Yy]* )
+			sudo apt-get install glances
+			;;	
+		    Nn ) exit;;
+		esac
 		
-		echo "intstallerer glances for monitorering"
-		sudo apt-get install glances
+		read -p "installer tmux for multitasking (y/n) " yn2
+		case $yn2 in
+		    [Yy]* )
+			sudo apt install tmux
+			;;	
+		    Nn ) exit;;
+		esac
 		
-		echo "installer tmux for multitasking"
-		sudo apt install tmux
+		read -p "installer highlight for cc cat (y/n) " yn2
+		case $yn2 in
+		    [Yy]* )
+			sudo apt install highlight
+			;;	
+		    Nn ) exit;;
+		esac
 		
-		echo "installerer highlight for cc cat"
-		sudo apt install highlight
+		read -p "installer nethogs (y/n) " yn2
+		case $yn2 in
+		    [Yy]* )
+			sudo apt-get install nethogs
+			;;	
+		    Nn ) exit;;
+		esac
 		
-		echo "installerer nethogs"
-		sudo apt-get install nethogs
+		read -p "instaler kubernates (y/n) " yn2
+		case $yn2 in
+		    [Yy]* )
+			echo "instalerer kubernates"
+			sudo snap install microk8s --classic
+			sudo ufw allow in on cni0 && sudo ufw allow out on cni0
+			sudo ufw default allow routed
+			;;	
+		    Nn ) exit;;
+		esac
 		
-		echo "instalerer kubernates"
-		sudo snap install microk8s --classic
-		sudo ufw allow in on cni0 && sudo ufw allow out on cni0
-		sudo ufw default allow routed
-		
-		sudo mkdir ~/tmp
-		cd ~/tmp
-		sudo apt install libgit2-dev rustc
-		sudo apt-mark auto rustc
-		sudo git clone https://github.com/ogham/exa --depth=1
-		cd exa
-		sudo cargo build --release && sudo cargo test #cargo test is optional
-		sudo install target/release/exa /usr/local/bin/exa
-		cd ..
-		sudo rm -rf exa
-		sudo apt purge --autoremove
+		read -p "kompilerer og installerer exa for bedre filhandtering (y/n) " yn2
+		case $yn2 in
+		    [Yy]* )
+			echo "kompilerer og installerer exa"
+			sudo mkdir ~/tmp
+			cd ~/tmp
+			sudo apt install libgit2-dev rustc
+			sudo apt-mark auto rustc
+			sudo git clone https://github.com/ogham/exa --depth=1
+			cd exa
+			sudo cargo build --release && sudo cargo test #cargo test is optional
+			sudo install target/release/exa /usr/local/bin/exa
+			cd ..
+			sudo rm -rf exa
+			sudo apt purge --autoremove
+			;;	
+		    Nn ) exit;;
+		esac
 		
     ;;
     [Nn]* )
-        echo "ssh ikke konfigurert"
+        echo "Ingen programmer installert"
     ;;
 	* ) echo "Please answer yes or no.";;
 esac
