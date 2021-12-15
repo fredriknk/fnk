@@ -131,7 +131,7 @@ case $yn in
 		sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 		
 		git clone https://github.com/abertsch/Menlo-for-Powerline.git
-		sudo mv ./Menlo-for-Powerline/Menlo*.tff /usr/share/fonts
+		sudo mv ./Menlo-for-Powerline/Menlo* /usr/share/fonts
 		
 		sudo cp ./.zshrc ~/.zshrc
 		cd ~/.oh-my-zsh/custom/plugins
