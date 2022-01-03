@@ -40,6 +40,7 @@ case $yn in
 			sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
 			apt-cache policy docker-ce
 			sudo apt install docker-ce
+			sudo apt install docker-compose
 			#sudo systemctl status docker
 			;;
 		    Nn ) exit;;
