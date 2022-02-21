@@ -711,16 +711,17 @@ class WpaConf(object):
         ca_cert=\"""" + os.environ.get('HOME') + """/.cat_installer/ca.pem\"
         identity=\"""" + user_data.username + """\"
         altsubject_match=\"""" + ";".join(Config.servers) + """\"
+        """
+
         if Config.eap_outer == 'PEAP' or Config.eap_outer == 'TTLS':
-            phase2=\"auth=""" + Config.eap_inner + """\"
-            password=\"""" + user_data.password + """\"
+            out += "phase2=\"auth=" + Config.eap_inner + "\"\n" \
+                    "        password=\"" + user_data.password + "\"\n"
             if Config.anonymous_identity != '':
-                anonymous_identity=\"""" + Config.anonymous_identity + """\"
+                out += "        anonymous_identity=\"" + Config.anonymous_identity + "\""
         if Config.eap_outer == 'TLS':
-            private_key_passwd=\"""" + user_data.password + """\"
-            private_key=\"""" + os.environ.get('HOME') + """/.cat_installer/user.p12\"
-}
-    """
+            out += "        private_key_passwd=\"" + user_data.password + "\"\n" \
+                    "private_key=\"" + os.environ.get('HOME') + "/.cat_installer/user.p12\"\n"
+        out += "\n}"
         return out
 
     def create_wpa_conf(self, ssids, user_data):
@@ -974,59 +975,42 @@ Config.init_confirmation = "This installer will only work properly if " \
 Config.user_realm = "nmbu.no"
 Config.ssids = ['eduroam']
 Config.del_ssids = []
-Config.servers = ['DNS:radius01.nmbu.no', 'DNS:radius02.nmbu.no', 'DNS:radius05.nmbu.no', 'DNS:radius06.nmbu.no']
+Config.servers = ['DNS:SDA-ISE-P-1-01.nmbu.no', 'DNS:SDA-ISE-P-2-01.nmbu.no', 'DNS:radius05.nmbu.no', 'DNS:radius06.nmbu.no']
 Config.use_other_tls_id = False
 Config.tou = ""
 Config.CA = """-----BEGIN CERTIFICATE-----
-MIIDtzCCAp+gAwIBAgIQDOfg5RfYRv6P5WD8G/AwOTANBgkqhkiG9w0BAQUFADBl
-MQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYDVQQLExB3
-d3cuZGlnaWNlcnQuY29tMSQwIgYDVQQDExtEaWdpQ2VydCBBc3N1cmVkIElEIFJv
-b3QgQ0EwHhcNMDYxMTEwMDAwMDAwWhcNMzExMTEwMDAwMDAwWjBlMQswCQYDVQQG
-EwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYDVQQLExB3d3cuZGlnaWNl
-cnQuY29tMSQwIgYDVQQDExtEaWdpQ2VydCBBc3N1cmVkIElEIFJvb3QgQ0EwggEi
-MA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCtDhXO5EOAXLGH87dg+XESpa7c
-JpSIqvTO9SA5KFhgDPiA2qkVlTJhPLWxKISKityfCgyDF3qPkKyK53lTXDGEKvYP
-mDI2dsze3Tyoou9q+yHyUmHfnyDXH+Kx2f4YZNISW1/5WBg1vEfNoTb5a3/UsDg+
-wRvDjDPZ2C8Y/igPs6eD1sNuRMBhNZYW/lmci3Zt1/GiSw0r/wty2p5g0I6QNcZ4
-VYcgoc/lbQrISXwxmDNsIumH0DJaoroTghHtORedmTpyoeb6pNnVFzF1roV9Iq4/
-AUaG9ih5yLHa5FcXxH4cDrC0kqZWs72yl+2qp/C3xag/lRbQ/6GW6whfGHdPAgMB
-AAGjYzBhMA4GA1UdDwEB/wQEAwIBhjAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQW
-BBRF66Kv9JLLgjEtUYunpyGd823IDzAfBgNVHSMEGDAWgBRF66Kv9JLLgjEtUYun
-pyGd823IDzANBgkqhkiG9w0BAQUFAAOCAQEAog683+Lt8ONyc3pklL/3cmbYMuRC
-dWKuh+vy1dneVrOfzM4UKLkNl2BcEkxY5NM9g0lFWJc1aRqoR+pWxnmrEthngYTf
-fwk8lOa4JiwgvT2zKIn3X/8i4peEH+ll74fg38FnSbNd67IJKusm7Xi+fT8r87cm
-NW1fiQG2SVufAQWbqz0lwcy2f8Lxb4bG+mRo64EtlOtCt/qMHt1i8b5QZ7dsvfPx
-H2sMNgcWfzd8qVttevESRmCD1ycEvkvOl77DZypoEd+A5wwzZr8TDRRu838fYxAe
-+o0bJW1sj6W3YQGx0qMmoRBxna3iw/nDmVG3KwcIzi7mULKn+gpFL6Lw8g==
------END CERTIFICATE-----
------BEGIN CERTIFICATE-----
-MIIE+zCCA+OgAwIBAgIQCHC8xa8/25Wakctq7u/kZTANBgkqhkiG9w0BAQsFADBl
-MQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYDVQQLExB3
-d3cuZGlnaWNlcnQuY29tMSQwIgYDVQQDExtEaWdpQ2VydCBBc3N1cmVkIElEIFJv
-b3QgQ0EwHhcNMTQxMTE4MTIwMDAwWhcNMjQxMTE4MTIwMDAwWjBkMQswCQYDVQQG
-EwJOTDEWMBQGA1UECBMNTm9vcmQtSG9sbGFuZDESMBAGA1UEBxMJQW1zdGVyZGFt
-MQ8wDQYDVQQKEwZURVJFTkExGDAWBgNVBAMTD1RFUkVOQSBTU0wgQ0EgMzCCASIw
-DQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMV2Dw/ZQyk7bG3RR63eEL8jwnio
-Snc18SNb4EweQefCMQC9iDdFdd25AhCAHo/tZCMERaegOTuBTc9jP8JJ/yKeiLDS
-lrlcinQfkioq8hLIt2hUtVhBgUBoBhpPhSn7tU08D08/QJYbzqjMXjX/ZJj1dd10
-VAWgNhEEEiRVY++Udy538RV27tOkWUUhn6i+0SftCuirOMo/h9Ha8Y+5Cx9E5+Ct
-85XCFk3shKM6ktTPxn3mvcsaQE+zVLHzj28NHuO+SaNW5Ae8jafOHbBbV1bRxBz8
-mGXRzUYvkZS/RYVJ+G1ShxwCVgEnFqtyLvRx5GG1IKD6JmlqCvGrn223zyUCAwEA
-AaOCAaYwggGiMBIGA1UdEwEB/wQIMAYBAf8CAQAwDgYDVR0PAQH/BAQDAgGGMHkG
-CCsGAQUFBwEBBG0wazAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuZGlnaWNlcnQu
-Y29tMEMGCCsGAQUFBzAChjdodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20vRGln
-aUNlcnRBc3N1cmVkSURSb290Q0EuY3J0MIGBBgNVHR8EejB4MDqgOKA2hjRodHRw
-Oi8vY3JsMy5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkSURSb290Q0EuY3Js
-MDqgOKA2hjRodHRwOi8vY3JsNC5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVk
-SURSb290Q0EuY3JsMD0GA1UdIAQ2MDQwMgYEVR0gADAqMCgGCCsGAQUFBwIBFhxo
-dHRwczovL3d3dy5kaWdpY2VydC5jb20vQ1BTMB0GA1UdDgQWBBRn/YggFCeYxwnS
-JRm76VERY3VQYjAfBgNVHSMEGDAWgBRF66Kv9JLLgjEtUYunpyGd823IDzANBgkq
-hkiG9w0BAQsFAAOCAQEAqSg1esR71tonHqyYzyc2TxEydHTmQN0dzfJodzWvs4xd
-xgS/FfQjZ4u5b5cE60adws3J0aSugS7JurHogNAcyTnBVnZZbJx946nw09E02DxJ
-WYsamM6/xvLYMDX/6W9doK867mZTrqqMaci+mqege9iCSzMTyAfzd9fzZM2eY/lC
-J1OuEDOJcjcV8b73HjWizsMt8tey5gvHacDlH198aZt+ziYaM0TDuncFO7pdP0GJ
-+hY77gRuW6xWS++McPJKe1e9GW6LNgdUJi2GCZQfXzer8CM/jyxflp5HcahE3qm5
-hS+1NGClXwmgmkMd1L8tRNaN2v11y18WoA5hwnA9Ng==
+MIIF3jCCA8agAwIBAgIQAf1tMPyjylGoG7xkDjUDLTANBgkqhkiG9w0BAQwFADCB
+iDELMAkGA1UEBhMCVVMxEzARBgNVBAgTCk5ldyBKZXJzZXkxFDASBgNVBAcTC0pl
+cnNleSBDaXR5MR4wHAYDVQQKExVUaGUgVVNFUlRSVVNUIE5ldHdvcmsxLjAsBgNV
+BAMTJVVTRVJUcnVzdCBSU0EgQ2VydGlmaWNhdGlvbiBBdXRob3JpdHkwHhcNMTAw
+MjAxMDAwMDAwWhcNMzgwMTE4MjM1OTU5WjCBiDELMAkGA1UEBhMCVVMxEzARBgNV
+BAgTCk5ldyBKZXJzZXkxFDASBgNVBAcTC0plcnNleSBDaXR5MR4wHAYDVQQKExVU
+aGUgVVNFUlRSVVNUIE5ldHdvcmsxLjAsBgNVBAMTJVVTRVJUcnVzdCBSU0EgQ2Vy
+dGlmaWNhdGlvbiBBdXRob3JpdHkwggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIK
+AoICAQCAEmUXNg7D2wiz0KxXDXbtzSfTTK1Qg2HiqiBNCS1kCdzOiZ/MPans9s/B
+3PHTsdZ7NygRK0faOca8Ohm0X6a9fZ2jY0K2dvKpOyuR+OJv0OwWIJAJPuLodMkY
+tJHUYmTbf6MG8YgYapAiPLz+E/CHFHv25B+O1ORRxhFnRghRy4YUVD+8M/5+bJz/
+Fp0YvVGONaanZshyZ9shZrHUm3gDwFA66Mzw3LyeTP6vBZY1H1dat//O+T23LLb2
+VN3I5xI6Ta5MirdcmrS3ID3KfyI0rn47aGYBROcBTkZTmzNg95S+UzeQc0PzMsNT
+79uq/nROacdrjGCT3sTHDN/hMq7MkztReJVni+49Vv4M0GkPGw/zJSZrM233bkf6
+c0Plfg6lZrEpfDKEY1WJxA3Bk1QwGROs0303p+tdOmw1XNtB1xLaqUkL39iAigmT
+Yo61Zs8liM2EuLE/pDkP2QKe6xJMlXzzawWpXhaDzLhn4ugTncxbgtNMs+1b/97l
+c6wjOy0AvzVVdAlJ2ElYGn+SNuZRkg7zJn0cTRe8yexDJtC/QV9AqURE9JnnV4ee
+UB9XVKg+/XRjL7FQZQnmWEIuQxpMtPAlR1n6BB6T1CZGSlCBst6+eLf8ZxXhyVeE
+Hg9j1uliutZfVS7qXMYoCAQlObgOK6nyTJccBz8NUvXt7y+CDwIDAQABo0IwQDAd
+BgNVHQ4EFgQUU3m/WqorSs9UgOHYm8Cd8rIDZsswDgYDVR0PAQH/BAQDAgEGMA8G
+A1UdEwEB/wQFMAMBAf8wDQYJKoZIhvcNAQEMBQADggIBAFzUfA3P9wF9QZllDHPF
+Up/L+M+ZBn8b2kMVn54CVVeWFPFSPCeHlCjtHzoBN6J2/FNQwISbxmtOuowhT6KO
+VWKR82kV2LyI48SqC/3vqOlLVSoGIG1VeCkZ7l8wXEskEVX/JJpuXior7gtNn3/3
+ATiUFJVDBwn7YKnuHKsSjKCaXqeYalltiz8I+8jRRa8YFWSQEg9zKC7F4iRO/Fjs
+8PRF/iKz6y+O0tlFYQXBl2+odnKPi4w2r78NBc5xjeambx9spnFixdjQg3IM8WcR
+iQycE0xyNN+81XHfqnHd4blsjDwSXWXavVcStkNr/+XeTWYRUc+ZruwXtuhxkYze
+Sf7dNXGiFSeUHM9h4ya7b6NnJSFd5t0dCy5oGzuCr+yDZ4XUmFF0sbmZgIn/f3gZ
+XHlKYC6SQK5MNyosycdiyA5d9zZbyuAlJQG03RoHnHcAP9Dc1ew91Pq7P8yF1m9/
+qS3fuQL39ZeatTXaw2ewh0qpKJ4jjv9cJ2vhsE/zB+4ALtRZh8tSQZXq9EfX7mRB
+VXyNWQKV3WKdwrnuWih0hKWbt5DHDAff9Yk2dDLWKMGwsAvgnEzDHNb842m1R0aB
+L6KCq9NjRHDEjf8tM7qtj3u1cIiuPhnPQCjY/MiQu12ZIvVS5ljFH4gxQ+6IHdfG
+jjxDah2nGN59PRbxYvnKkKj9
 -----END CERTIFICATE-----
 """
 run_installer()
