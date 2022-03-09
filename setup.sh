@@ -41,6 +41,7 @@ case $yn in
 			apt-cache policy docker-ce
 			sudo apt install docker-ce
 			sudo apt install docker-compose
+			sudo usermod -a -G docker $USER
 			#sudo systemctl status docker
 			;;
 		    Nn ) exit;;
