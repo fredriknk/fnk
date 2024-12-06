@@ -112,7 +112,16 @@ case $yn in
 			;;	
 		    Nn ) exit;;
 		esac
-		
+
+  		read -p "instaler crowdsec og bouncer (y/n) " yn2
+		case $yn2 in
+		    [Yy]* )
+      			curl -s https://packagecloud.io/install/repositories/crowdsec/crowdsec/script.deb.sh | sudo bash
+	 		apt install crowdsec
+    			apt install crowdsec-firewall-bouncer-iptables
+    			;;	
+		    Nn ) exit;;
+		esac
     ;;
     [Nn]* )
         echo "Ingen programmer installert"
