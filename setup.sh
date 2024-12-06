@@ -97,13 +97,18 @@ case $yn in
 		    Nn ) exit;;
 		esac
 		
-		read -p "instaler kubernates (y/n) " yn2
+		read -p "instaler eza (y/n) " yn2
 		case $yn2 in
 		    [Yy]* )
-			echo "instalerer kubernates"
-			sudo snap install microk8s --classic
-			sudo ufw allow in on cni0 && sudo ufw allow out on cni0
-			sudo ufw default allow routed
+			echo "instalerer eza"
+			sudo apt update
+			sudo apt install -y gpg
+			sudo mkdir -p /etc/apt/keyrings
+			wget -qO- https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | sudo gpg --dearmor -o /etc/apt/keyrings/gierens.gpg
+			echo "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable main" | sudo tee /etc/apt/sources.list.d/gierens.list
+			sudo chmod 644 /etc/apt/keyrings/gierens.gpg /etc/apt/sources.list.d/gierens.list
+			sudo apt update
+			sudo apt install -y eza
 			;;	
 		    Nn ) exit;;
 		esac
