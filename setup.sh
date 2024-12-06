@@ -18,7 +18,7 @@ read -p "Vil du lage ssh-nøkler og importere fra github? (y/n) " yn
 case $yn in
     [Yy]* )
 		sudo apt install openssh-server
-                ssh-keygen -t rsa -b 3072
+                ssh-keygen -t ed25519 -C "fnk@appserver.com"
 		ssh-import-id gh:${github_user}
 		#sudo systemctl status ssh
     ;;
@@ -35,12 +35,22 @@ case $yn in
 		case $yn2 in
 		    [Yy]* )
 			sudo apt update
-			sudo apt install apt-transport-https ca-certificates curl software-properties-common
-			curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-			sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
-			apt-cache policy docker-ce
-			sudo apt install docker-ce
-			sudo apt install docker-compose
+			for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove $pkg; done
+   			# Add Docker's official GPG key:
+			sudo apt-get update
+			sudo apt-get install ca-certificates curl
+			sudo install -m 0755 -d /etc/apt/keyrings
+			sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+			sudo chmod a+r /etc/apt/keyrings/docker.asc
+			
+			# Add the repository to Apt sources:
+			echo \
+			  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+			  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+			  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+			sudo apt-get update
+   			sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+      			
 			sudo usermod -a -G docker $USER
 			#sudo systemctl status docker
 			;;
@@ -50,9 +60,7 @@ case $yn in
 		read -p "installer neovim, den kjekkeste editoren(y/n) " yn2
 		case $yn2 in
 		    [Yy]* )
-			sudo add-apt-repository ppa:neovim-ppa/unstable
-			sudo apt-get update
-			sudo apt-get install neovim
+			sudo apt install neovim
 			;;
 		    Nn ) exit;;
 		esac
@@ -60,7 +68,7 @@ case $yn in
 		read -p "intstaller glances for monitorering (y/n) " yn2
 		case $yn2 in
 		    [Yy]* )
-			sudo apt-get install glances
+			sudo apt install glances
 			;;	
 		    Nn ) exit;;
 		esac
@@ -96,25 +104,6 @@ case $yn in
 			sudo snap install microk8s --classic
 			sudo ufw allow in on cni0 && sudo ufw allow out on cni0
 			sudo ufw default allow routed
-			;;	
-		    Nn ) exit;;
-		esac
-		
-		read -p "kompilerer og installerer exa for bedre filhandtering (y/n) " yn2
-		case $yn2 in
-		    [Yy]* )
-			echo "kompilerer og installerer exa"
-			sudo mkdir ~/tmp
-			cd ~/tmp
-			sudo apt install libgit2-dev rustc
-			sudo apt-mark auto rustc
-			sudo git clone https://github.com/ogham/exa --depth=1
-			cd exa
-			sudo cargo build --release && sudo cargo test #cargo test is optional
-			sudo install target/release/exa /usr/local/bin/exa
-			cd ..
-			sudo rm -rf exa
-			sudo apt purge --autoremove
 			;;	
 		    Nn ) exit;;
 		esac
