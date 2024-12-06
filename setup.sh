@@ -17,7 +17,7 @@ esac
 read -p "Vil du lage ssh-nøkler og importere fra github? (y/n) " yn
 case $yn in
     [Yy]* )
-		sudo apt install openssh-server
+		sudo apt install -y openssh-server
                 ssh-keygen -t ed25519 -C "fnk@appserver.com"
 		ssh-import-id gh:${github_user}
 		#sudo systemctl status ssh
@@ -38,7 +38,7 @@ case $yn in
 			for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove $pkg; done
    			# Add Docker's official GPG key:
 			sudo apt-get update
-			sudo apt-get install ca-certificates curl
+			sudo apt-get install -y ca-certificates curl
 			sudo install -m 0755 -d /etc/apt/keyrings
 			sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
 			sudo chmod a+r /etc/apt/keyrings/docker.asc
@@ -49,7 +49,7 @@ case $yn in
 			  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
 			  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 			sudo apt-get update
-   			sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+   			sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
       			
 			sudo usermod -a -G docker $USER
 			#sudo systemctl status docker
@@ -60,7 +60,7 @@ case $yn in
 		read -p "installer neovim, den kjekkeste editoren(y/n) " yn2
 		case $yn2 in
 		    [Yy]* )
-			sudo apt install neovim
+			sudo apt install -y neovim
 			;;
 		    Nn ) exit;;
 		esac
@@ -68,7 +68,7 @@ case $yn in
 		read -p "intstaller glances for monitorering (y/n) " yn2
 		case $yn2 in
 		    [Yy]* )
-			sudo apt install glances
+			sudo apt install -y glances
 			;;	
 		    Nn ) exit;;
 		esac
@@ -76,7 +76,7 @@ case $yn in
 		read -p "installer tmux for multitasking (y/n) " yn2
 		case $yn2 in
 		    [Yy]* )
-			sudo apt install tmux
+			sudo apt install -y tmux
 			;;	
 		    Nn ) exit;;
 		esac
@@ -84,7 +84,7 @@ case $yn in
 		read -p "installer highlight for cc cat (y/n) " yn2
 		case $yn2 in
 		    [Yy]* )
-			sudo apt install highlight
+			sudo apt install -y highlight
 			;;	
 		    Nn ) exit;;
 		esac
@@ -92,7 +92,7 @@ case $yn in
 		read -p "installer nethogs (y/n) " yn2
 		case $yn2 in
 		    [Yy]* )
-			sudo apt-get install nethogs
+			sudo apt-get install -y nethogs
 			;;	
 		    Nn ) exit;;
 		esac
@@ -117,8 +117,8 @@ case $yn in
 		case $yn2 in
 		    [Yy]* )
       			curl -s https://packagecloud.io/install/repositories/crowdsec/crowdsec/script.deb.sh | sudo bash
-	 		apt install crowdsec
-    			apt install crowdsec-firewall-bouncer-iptables
+	 			apt install -y crowdsec
+    			apt install -y crowdsec-firewall-bouncer-iptables
     			;;	
 		    Nn ) exit;;
 		esac
@@ -132,7 +132,7 @@ esac
 read -p "Vil du sette opp ohmyzsh zsh? (y/n) " yn
 case $yn in
     [Yy]* )
-        sudo apt install git-core zsh
+        sudo apt install -y git-core zsh
 		sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 		
 		git clone https://github.com/abertsch/Menlo-for-Powerline.git
