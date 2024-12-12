@@ -116,9 +116,9 @@ case $yn in
   		read -p "instaler crowdsec og bouncer (y/n) " yn2
 		case $yn2 in
 		    [Yy]* )
-      			curl -s https://packagecloud.io/install/repositories/crowdsec/crowdsec/script.deb.sh | sudo bash
-	 			apt install -y crowdsec
-    			apt install -y crowdsec-firewall-bouncer-iptables
+      			curl -s https://install.crowdsec.net | sudo sh
+	 		sudo apt install -y crowdsec
+    			sudo apt install -y crowdsec-firewall-bouncer-iptables
     			;;	
 		    Nn ) exit;;
 		esac
